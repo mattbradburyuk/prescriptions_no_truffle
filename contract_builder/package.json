@@ -4,6 +4,8 @@
   "dependencies": {
     "command-line-args": "^2.1.6",
     "jayson": "^2.0.0",
-    "web3": "^0.15.2"
+    "web3": "^0.15.2",
+    "solc": "^0.3.5",
+    "jsonfile": "^2.3.1"
   }
 }
