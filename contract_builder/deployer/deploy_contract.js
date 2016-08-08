@@ -64,14 +64,23 @@ if (web3.isConnected()== false){
     return
 }
 
-// web3.personal.unlockAccount(web3.eth.accounts[0],'mattspass');  // unlock accounts
 web3.personal.unlockAccount(web3.eth.accounts[0],'mattspass');  // unlock accounts
-
 
 var contract_obj = web3.eth.contract(iface);
 
-// add miner.start() rpc
-// tidy this up next
+
+// if mining is already on don't affect mining otherwise switch it on but switch off when deployed
+var switch_on_mining
+if (web3.eth.mining) {
+    switch_on_mining = false
+}else{
+    switch_on_mining = true
+    console.log("Switching on mining")
+    rpc_client.request('miner_start', [], logResponse);
+}
+
+
+
 contract_obj.new(
     {
         from: web3.eth.accounts[0],
@@ -93,11 +102,32 @@ contract_obj.new(
 
                 console.log("file: ",file);
                 
-                var x_json = {"address": contract.address, "tx_hash": contract.transactionHash}; // contract_name not substituting
+                var json_to_file = {"address": contract.address, "tx_hash": contract.transactionHash}; 
                 
                 // write to .json file
                 com_path = '../deployed/' + file;
-                jsonfile.writeFileSync(com_path, x_json);
+                jsonfile.writeFileSync(com_path, json_to_file);
+                
+                if(switch_on_mining){
+                    console.log("Switching off mining")
+                    rpc_client.request('miner_stop', [], logResponse);
+                }
+                
+                
             }
         }
     })
+
+
+
+
+
+// ************* reusable response call back function ***************
+
+function logResponse(err, response){
+    if (err) {
+        console.log('err: ',JSON.stringify(err));
+    } else {
+        console.log('response: ',JSON.stringify(response));
+    }
+}
