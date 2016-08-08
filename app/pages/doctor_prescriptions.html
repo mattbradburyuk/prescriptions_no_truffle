@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Doctors Prescriptions</title>
     <meta charset="utf-8">
@@ -11,6 +11,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script src="../scripts/app.js"></script>
+
     <script src="../scripts/doctor.js"></script>
 
 
@@ -23,8 +24,34 @@
 <div class="container">
     <h1>Manage Prescriptions</h1>
 
-    <br><br><button id="test" onclick="test()">Test</button>
-    <br><br><button id="doctor_test" onclick="doctor_test()">Doctor Test</button>
+
+    <form role="form">
+        <div class="form-group">
+            <label for="prescription_address">Prescription hash</label>
+            <input type="text" class="form-control" id="prescription_address" placeholder="e.g. 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
+    </div>
+    </form>
+    <button id="get_prescription" onclick="get_prescription()"  >Retrieve</button>
+    <br>
+    <br>
+
+    <div class="table-responsive">
+        <table class="table">
+            <tbody>
+            <tr>
+                <td>Drug</td>
+                <td id="drug"></td>
+
+            </tr>
+            <tr>
+                <td >Dose</td>
+                <td id="dose"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 
 
 

@@ -105,7 +105,7 @@ contract_obj.new(
                 var json_to_file = {"address": contract.address, "tx_hash": contract.transactionHash}; 
                 
                 // write to .json file
-                com_path = '../deployed/' + file;
+                com_path = '../deployed/' +'instance_of_'+ file;
                 jsonfile.writeFileSync(com_path, json_to_file);
                 
                 if(switch_on_mining){
