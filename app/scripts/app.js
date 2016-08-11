@@ -13,19 +13,15 @@ function get_prescription() {
     // console.log("prescription_addres: ,", prescription_address);
 
     // *********** read in .json ***************************
-
-    console.log("Reading in .json.....");
-
+    
     // var com_path = 'http://localhost:8000/contract/Prescription.json';
-    var com_path = '../contract/Prescription.json';
+    var com_path = '../contracts/definition/Prescription.json';
 
 
 
-    $.getJSON(com_path, function (json) {
+    $.getJSON(com_path, function (json) { // this is clumsy, want to use promises to get linear flow
         // console.log(json.interface);
-
-    // *********** deploy contract *****************
-
+        
         var iface = JSON.parse(json.interface);    // interface needs to be in JSON not a string
         // console.log("interface: ", iface);
         
@@ -33,7 +29,7 @@ function get_prescription() {
 
         // console.log("pres add: ",prescription_address);
         var pres = Prescription.at(prescription_address);
-
+        // console.log("pres: ", pres)
 
 
         pres.get_drug.call(function(e,r){

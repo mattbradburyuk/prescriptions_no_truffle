@@ -1,4 +1,10 @@
-// note this deliberately uses synchronous calls to run through like a script.
+// note this script deliberately uses synchronous calls to run through like a script.
+
+// however, the only function that would benefit from an async call would be jsonfile.writeFileSync which is called last anyway
+
+// may be benefit when update to accept 'all' cl args
+
+
 
 // *********** import requirements  ***********
 
@@ -23,8 +29,6 @@ catch(e){
     console.log("error reading command line arguments, e: ", e);
     return;
 }
-
-
 
 
 // ************ manage .sol files

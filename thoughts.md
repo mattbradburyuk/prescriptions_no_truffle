@@ -12,3 +12,10 @@
  * how much does it cost to deploy a contract
  
 * what are closures??
+
+
+
+there may be different ways to pick up something happening in ethereum
+
+* watch for events triggered from the contract (only for events)
+* check the block chain periodically for a thing -> look at doing with promises
