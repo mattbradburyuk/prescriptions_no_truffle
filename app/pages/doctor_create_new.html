@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Doctors Prescriptions</title>
+    <meta charset="utf-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="../scripts/doctor.js"></script>
+
+
+    <!--width of page follows device + initial scale is 100% -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Create Prescription</h1>
+
+
+    <button id="create_new_prescription" onclick="create_new_prescription()"  >Create</button>
+    <br>
+    <br>
+
+    <div class="table-responsive">
+        <table class="table">
+            <tbody>
+            <tr>
+                <td>Drug</td>
+                <td id="drug"></td>
+
+            </tr>
+            <tr>
+                <td >Dose</td>
+                <td id="dose"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+</body>
+</html>
