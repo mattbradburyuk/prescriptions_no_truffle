@@ -8,33 +8,23 @@ function create_new_prescription() {
 
     var drug_json;
     var definition_file = "Prescription.json";
-    var instance_file = "instance_of_Prescription.json";
-
-
-    // var con_path = '../contracts/definition/Prescription.json';
-    // console.log("con_path: ", con_path);
-    //
-    // $.getJSON(con_path, callback);
-    //
-    // function callback(e, r) {
-    //     if (e) {
-    //         console.log(e)
-    //     } else {
-    //         console.log(r)
-    //     }
-    // }
+    var iface;
+    var bc;
+    var contract_obj;
+    var switch_on_mining;
 
     // get contract values from screen
 
     get_contract_vals()
         .then(read_in_json)
+        .then(make_contract_obj)
+        .then(deploy_contract)
         .then(end_success, end_error);
-
 
     // deploy new contract
 
     // record address
-
+;
     // set contract values
 
 
@@ -64,10 +54,11 @@ function create_new_prescription() {
 
             $.getJSON(con_path, callback); // note callback return order is different to web 3
 
-            function callback(contract, textStatus) {
+            function callback(contract_json, textStatus) {
                 if(textStatus == 'success') {
                     console.log("textStatus: ",textStatus)
-                    resolve(contract);
+                    console.log("contract_json: ", contract_json)
+                    resolve(contract_json);
                 } else {
                     console.log("textStatus: ",textStatus)
                     reject()
@@ -76,22 +67,58 @@ function create_new_prescription() {
         });
     }
 
-    function unlock_acc(pass_through) {
-        console.log("unlock_acc called");
-        return new Promise(function (resolve, reject) {
+    function make_contract_obj(contract_json){
 
-            web3.personal.unlockAccount(web3.eth.accounts[0], 'mattspass', callback);  // unlock accounts
+        return new Promise(function (resolve, reject){
 
-            function callback(e, r) {
+            console.log("make_contract_obj called");
+            console.log("contract_json.interface: ", contract_json.interface)
+            iface = JSON.parse(contract_json.interface);
+            bc = contract_json.bytecode;
+            // contract_obj = web3.eth.contract(contract_json.interface);
+            resolve();
+
+        });
+    }
+
+    function deploy_contract(){
+
+        return new Promise(function (resolve, reject){
+
+            console.log("deploy_contract called");
+
+            contract_obj = web3.eth.contract(iface);
+
+            console.log("bc: ", bc);
+
+            contract_obj.new(
+                {
+                    from: web3.eth.accounts[0],
+                    data: bc,
+                    gas: 3000000
+                }, callback_x)
+
+            function callback_x(e,contract) {
+                console.log("callback_x called");
                 if (e) {
-                    reject("unlock_acc error");
+                    console.log("contract_obj.new error");
+                    reject(e);
                 } else {
-                    console.log(" --->account unlocked\n");
-                    resolve(pass_through);
+
+                    if (typeof contract.address != 'undefined') {
+                        console.log(' ---> Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
+
+                        var json_to_file = {"address": contract.address, "tx_hash": contract.transactionHash};
+                        console.log(" ---> contract deployed\n");
+                        resolve(json_to_file);
+                    }
                 }
             }
         });
     }
+    
+    
+    
 
 // *********end of promise chain markers **********
 
