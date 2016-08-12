@@ -7,19 +7,17 @@ function create_new_prescription() {
     var iface;
     var bc;
     var contract_obj;
+    var contract_address;
     var ls_name = 'doctor_local_storage_test_1'
 
-
-    //
     get_contract_vals()
         .then(read_in_json)
         .then(make_contract_obj)
         .then(deploy_contract)
         .then(store_contract_locally)
         .then(log_out_local_storage)
+        .then(send_prescription_details)
         .then(end_success, end_error);
-
-
 
 
 // reset_local_storage();
@@ -50,9 +48,22 @@ function create_new_prescription() {
         return new Promise(function (resolve, reject) {
 
             console.log("called get_contract_vals");
-            var drug_json = JSON.parse('{"drug":"Asprin", "dose":"500ml"}')
+
+            var drug_entry = document.getElementById("drug_entry").value;
+            var dose_entry = document.getElementById("dose_entry").value;
+
+            drug_json = {drug: drug_entry, dose:dose_entry}
+            // var drug_json = JSON.parse('{"drug":"placeholder drug", "dose":"placeholder dose"}') ///
             console.log(" ---> drug_json: ", drug_json);
-            resolve();
+
+            var entries_validated = true; // allows adding validation to entries
+
+            if(entries_validated){
+                resolve();
+            }else{
+                reject("Entries not validated")
+            }
+
         });
     }
 
@@ -69,11 +80,11 @@ function create_new_prescription() {
 
             function callback(contract_json, textStatus) {
                 if(textStatus == 'success') {
-                    console.log("textStatus: ",textStatus)
-                    console.log("contract_json: ", contract_json)
+                    console.log("textStatus: ",textStatus);
+                    console.log("contract_json: ", contract_json);
                     resolve(contract_json);
                 } else {
-                    console.log("textStatus: ",textStatus)
+                    console.log("textStatus: ",textStatus);
                     reject()
                 }
             }
@@ -102,7 +113,7 @@ function create_new_prescription() {
 
             contract_obj = web3.eth.contract(iface);
 
-            // console.log("bc: ", bc);
+            console.log("bc: ", bc);
 
             contract_obj.new(
                 {
@@ -121,6 +132,7 @@ function create_new_prescription() {
                     if (typeof contract.address != 'undefined') {
                         console.log(' ---> Contract mined! address: ' + contract.address + ' transactionHash: ' + contract.transactionHash);
 
+                        contract_address = contract.address;
 
                         var json_to_storage = { hash: contract.address, ref: "ref_1"};
                         console.log(" ---> contract deployed\n");
@@ -153,7 +165,42 @@ function create_new_prescription() {
 
         });
     }
-    
+
+    function send_prescription_details(){
+        console.log("send_prescription_details called");
+        return new Promise(function (resolve,reject){
+
+
+            console.log("contract_address: ",contract_address);
+
+            var pres = contract_obj.at(contract_address);
+
+            console.log("drug_json: ", drug_json);
+
+            var num_sent = 0;
+            pres.set_drug.sendTransaction(drug_json.drug ,{from: web3.eth.coinbase, to: contract_address}, callback);
+            pres.set_dose.sendTransaction(drug_json.dose ,{from: web3.eth.coinbase, to: contract_address}, callback);
+
+
+            function callback(e,r){
+                console.log("callback fired");
+                if(e){
+                    reject("send failed")
+                } else{
+
+                    num_sent++;
+                    if (num_sent == 2){resolve(r)}
+                }
+
+
+
+            }
+            // resolve("finished");
+
+        });
+    }
+
+
 
     // ********* end of promise chain markers **********
 
