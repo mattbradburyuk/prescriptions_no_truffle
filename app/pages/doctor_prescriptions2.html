@@ -10,9 +10,7 @@
     <!-- Latest compiled JavaScript -->
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <script src="../scripts/app.js"></script>
-
-    <script src="../scripts/doctor_create_new.js"></script>
+    <script src="../scripts/doctor_prescriptions2.js"></script>
 
 
     <!--width of page follows device + initial scale is 100% -->
@@ -23,17 +21,33 @@
 
 <div class="container">
     <h1>Manage Prescriptions</h1>
+<br>
 
-
+<!--
     <form role="form">
         <div class="form-group">
             <label for="prescription_address">Prescription hash</label>
             <input type="text" class="form-control" id="prescription_address" placeholder="e.g. 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
-    </div>
+        </div>
     </form>
-    <button id="get_prescription" onclick="get_prescription()"  >Retrieve</button>
-    <br>
-    <br>
+    -->
+
+
+    <div class="table-responsive">
+        <table class="table" id="my_table">
+            <tbody>
+            <tr>
+                <td><h4>Prescription reference</h4></td>
+                <td><h4>Address</h4></td>
+                <td><h4>Select to view</h4></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <h3>Details <small id="pres_ref"></small></h3>
 
     <div class="table-responsive">
         <table class="table">

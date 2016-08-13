@@ -113,7 +113,7 @@ function create_new_prescription() {
 
             contract_obj = web3.eth.contract(iface);
 
-            console.log("bc: ", bc);
+            // console.log("bc: ", bc);
 
             contract_obj.new(
                 {
@@ -148,14 +148,16 @@ function create_new_prescription() {
         console.log("store_contract_locally called");
         return new Promise(function (resolve,reject){
 
-            var ls = localStorage.getItem(ls_name);
             var my_json;
+            //
 
-            if(ls == ""){
+            if( localStorage.getItem(ls_name) == null){
+                console.log("ls was null");
                 my_json = {prescriptions: [json_to_file]}
 
             } else {
                 var index;
+                var ls = localStorage.getItem(ls_name);
                 my_json = JSON.parse(ls);
                 index = my_json.prescriptions.length;
                 my_json.prescriptions[index] = json_to_file;
