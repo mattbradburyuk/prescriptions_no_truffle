@@ -1,5 +1,5 @@
 
-var config = require("../../dapp_config.js")
+var config = require("../deployer_config.js")
 var Web3 = require('web3');
 var jayson = require('jayson');
 var commandLineArgs = require('command-line-args');
