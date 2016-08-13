@@ -51,8 +51,9 @@ function create_new_prescription() {
 
             var drug_entry = document.getElementById("drug_entry").value;
             var dose_entry = document.getElementById("dose_entry").value;
+            var ref_entry = document.getElementById("ref_entry").value;
 
-            drug_json = {drug: drug_entry, dose:dose_entry}
+            drug_json = {drug: drug_entry, dose:dose_entry, ref:ref_entry}
             // var drug_json = JSON.parse('{"drug":"placeholder drug", "dose":"placeholder dose"}') ///
             console.log(" ---> drug_json: ", drug_json);
 
@@ -134,7 +135,7 @@ function create_new_prescription() {
 
                         contract_address = contract.address;
 
-                        var json_to_storage = { hash: contract.address, ref: "ref_1"};
+                        var json_to_storage = { hash: contract.address, ref: drug_json.ref};
                         console.log(" ---> contract deployed\n");
                         resolve(json_to_storage);
                     }
