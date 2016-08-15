@@ -48,7 +48,7 @@ function add_row(ref, address){
 }
 
 
-
+// need to remane my_json to something more informative
 function get_prescription(local_storage_ref) {
 
     console.log("get_prescription called");
@@ -104,6 +104,28 @@ function get_prescription(local_storage_ref) {
                 drug_element.innerHTML = r;
             }
         })
+
+        pres.get_freq.call(function(e,r){
+            if(e){
+                console.log("get_freq error")
+            }else{
+                var drug_element = document.getElementById("freq");
+                drug_element.innerHTML = r;
+            }
+        })
+
+        pres.get_num_days.call(function(e,r){
+            if(e){
+                console.log("get_num_days error")
+            }else{
+                var drug_element = document.getElementById("num_days");
+                drug_element.innerHTML = r;
+            }
+        })
+        
+        
+        
+        
 
         return;
 

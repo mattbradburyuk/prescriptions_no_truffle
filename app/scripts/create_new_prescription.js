@@ -50,10 +50,12 @@ function create_new_prescription() {
 
             var drug_entry = document.getElementById("drug_entry").value;
             var dose_entry = document.getElementById("dose_entry").value;
+            var freq_entry = document.getElementById("freq_entry").value;
+            var num_days_entry = document.getElementById("num_days_entry").value;
             var ref_entry = document.getElementById("ref_entry").value;
 
-            drug_json = {drug: drug_entry, dose:dose_entry, ref:ref_entry}
-            // var drug_json = JSON.parse('{"drug":"placeholder drug", "dose":"placeholder dose"}') ///
+            drug_json = {drug: drug_entry, dose:dose_entry, freq:freq_entry, num_days:num_days_entry, ref:ref_entry}
+            
             console.log(" ---> drug_json: ", drug_json);
 
             var entries_validated = true; // allows adding validation to entries
@@ -121,7 +123,7 @@ function create_new_prescription() {
             
             // .sol: function Prescription(string _drug, uint _dose, string _freq, uint _num_days )
             
-            contract_obj.new(drug_json.drug, drug_json.dose, 'default freq', 7,
+            contract_obj.new(drug_json.drug, drug_json.dose, drug_json.freq, drug_json.num_days,
                 {
                     from: web3.eth.accounts[0],
                     data: bc,
