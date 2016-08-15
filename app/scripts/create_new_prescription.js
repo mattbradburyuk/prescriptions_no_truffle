@@ -16,7 +16,6 @@ function create_new_prescription() {
         .then(deploy_contract)
         .then(store_contract_locally)
         .then(log_out_local_storage)
-        .then(send_prescription_details)
         .then(end_success, end_error);
 
 
@@ -116,7 +115,13 @@ function create_new_prescription() {
 
             // console.log("bc: ", bc);
 
-            contract_obj.new(
+            // get prescription details
+            
+            
+            
+            // .sol: function Prescription(string _drug, uint _dose, string _freq, uint _num_days )
+            
+            contract_obj.new(drug_json.drug, drug_json.dose, 'default freq', 7,
                 {
                     from: web3.eth.accounts[0],
                     data: bc,
@@ -169,39 +174,7 @@ function create_new_prescription() {
         });
     }
 
-    function send_prescription_details(){
-        console.log("send_prescription_details called");
-        return new Promise(function (resolve,reject){
 
-
-            console.log("contract_address: ",contract_address);
-
-            var pres = contract_obj.at(contract_address);
-
-            console.log("drug_json: ", drug_json);
-
-            var num_sent = 0;
-            pres.set_drug.sendTransaction(drug_json.drug ,{from: web3.eth.coinbase, to: contract_address}, callback);
-            pres.set_dose.sendTransaction(drug_json.dose ,{from: web3.eth.coinbase, to: contract_address}, callback);
-
-
-            function callback(e,r){
-                console.log("callback fired");
-                if(e){
-                    reject("send failed")
-                } else{
-
-                    num_sent++;
-                    if (num_sent == 2){resolve(r)}
-                }
-
-
-
-            }
-            // resolve("finished");
-
-        });
-    }
 
 
 
@@ -268,6 +241,46 @@ function create_new_prescription() {
     }
 
 
+    
+    
+    // not used, save for later use: 
+
+    function send_prescription_details(){
+        console.log("send_prescription_details called");
+        return new Promise(function (resolve,reject){
+
+
+            console.log("contract_address: ",contract_address);
+
+            var pres = contract_obj.at(contract_address);
+
+            console.log("drug_json: ", drug_json);
+
+            var num_sent = 0;
+            pres.set_drug.sendTransaction(drug_json.drug ,{from: web3.eth.coinbase, to: contract_address}, callback);
+            pres.set_dose.sendTransaction(drug_json.dose ,{from: web3.eth.coinbase, to: contract_address}, callback);
+
+
+            function callback(e,r){
+                console.log("callback fired");
+                if(e){
+                    reject("send failed")
+                } else{
+
+                    num_sent++;
+                    if (num_sent == 2){resolve(r)}
+                }
+
+
+
+            }
+            // resolve("finished");
+
+        });
+    }
+    
+    
+    
 
 
     // ********* end of create_new_prescription() function ***********
